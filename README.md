@@ -1,4 +1,4 @@
-# Expense Tracker — SDET Portfolio Project
+# Expense Tracker 
 
 Full-stack expense tracker built as an end-to-end SDET showcase: REST API, database,
 UI, and (in progress) a complete test-automation and CI/CD pipeline around it.
@@ -46,10 +46,27 @@ cd backend && npm install && npx nodemon server.js
 | DELETE | /api/expenses/:id | Delete (204) |
 
 ## Project structure
-backend/          Express app (models, routes, public UI, Dockerfile)
-tests/            Test framework: api, e2e, mobile, fixtures, schemas, perf, utils
-ci-cd/            Jenkins + Kubernetes manifests
-docker-compose.yml
+
+```
+expense-tracker-sdet/
+├── backend/
+│   ├── models/           Mongoose schemas (Expense)
+│   ├── routes/           API routes (expenses)
+│   ├── public/           Frontend UI (index.html)
+│   ├── server.js         Express entry point
+│   ├── seed.js           Sample data loader
+│   └── Dockerfile
+├── tests/
+│   ├── api/              pytest + requests API tests
+│   ├── e2e/              Playwright browser tests
+│   ├── mobile/           Appium mobile web tests
+│   ├── fixtures/         Test data (JSON payloads)
+│   ├── schemas/          Pydantic response models
+│   ├── perf/             k6 + JMeter scripts
+│   └── utils/            Shared helpers
+├── ci-cd/                Jenkinsfile + Kubernetes manifests
+└── docker-compose.yml
+```
 
 ## Roadmap
 

@@ -17,3 +17,12 @@ def api(base_url):
     session.headers.update({"Content-Type": "application/json"})
     yield session
     session.close()
+
+
+@pytest.fixture
+def cleanup_expenses(api, base_url):
+    """Tests append created ids; everything gets deleted after the test."""
+    created_ids = []
+    yield created_ids
+    for expense_id in created_ids:
+        api.delete(f"{base_url}/api/expenses/{expense_id}")

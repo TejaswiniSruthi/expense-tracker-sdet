@@ -1,0 +1,16 @@
+{
+  "valid": [
+    { "case": "typical expense all fields", "payload": { "amount": 250.5, "category": "Food", "description": "team lunch", "paymentMethod": "upi" } },
+    { "case": "minimum required fields only", "payload": { "amount": 1, "category": "Other" } },
+    { "case": "boundary smallest amount", "payload": { "amount": 0.01, "category": "Bills" } },
+    { "case": "large amount", "payload": { "amount": 999999.99, "category": "Travel", "paymentMethod": "card" } }
+  ],
+  "invalid": [
+    { "case": "missing amount", "payload": { "category": "Food" }, "error_contains": "amount" },
+    { "case": "zero amount", "payload": { "amount": 0, "category": "Food" }, "error_contains": "amount" },
+    { "case": "negative amount", "payload": { "amount": -50, "category": "Food" }, "error_contains": "amount" },
+    { "case": "missing category", "payload": { "amount": 100 }, "error_contains": "category" },
+    { "case": "category not in enum", "payload": { "amount": 100, "category": "Rent" }, "error_contains": "category" },
+    { "case": "invalid payment method", "payload": { "amount": 100, "category": "Food", "paymentMethod": "bitcoin" }, "error_contains": "paymentMethod" }
+  ]
+}

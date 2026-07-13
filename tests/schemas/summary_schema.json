@@ -1,0 +1,13 @@
+{
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "category": { "type": "string" },
+      "total": { "type": "number", "exclusiveMinimum": 0 },
+      "count": { "type": "integer", "minimum": 1 }
+    },
+    "required": ["category", "total", "count"],
+    "additionalProperties": false
+  }
+}

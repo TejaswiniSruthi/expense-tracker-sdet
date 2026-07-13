@@ -2,6 +2,7 @@ import os
 
 import pytest
 import requests
+from pymongo import MongoClient
 
 
 @pytest.fixture(scope="session")
@@ -42,3 +43,11 @@ def new_expense(api, base_url, cleanup_expenses):
     body = response.json()
     cleanup_expenses.append(body["_id"])
     return body
+
+
+@pytest.fixture(scope="session")
+def db():
+    """Direct handle to the app's MongoDB database."""
+    client = MongoClient(os.getenv("MONGO_URI", "mongodb://localhost:27017"))
+    yield client["expense_tracker"]
+    client.close()

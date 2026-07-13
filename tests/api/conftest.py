@@ -26,3 +26,19 @@ def cleanup_expenses(api, base_url):
     yield created_ids
     for expense_id in created_ids:
         api.delete(f"{base_url}/api/expenses/{expense_id}")
+
+
+@pytest.fixture
+def new_expense(api, base_url, cleanup_expenses):
+    """Create a fresh expense; returns the created body (id included)."""
+    payload = {
+        "amount": 500,
+        "category": "Food",
+        "description": "crud test expense",
+        "paymentMethod": "card",
+    }
+    response = api.post(f"{base_url}/api/expenses", json=payload)
+    assert response.status_code == 201, "fixture failed to create expense"
+    body = response.json()
+    cleanup_expenses.append(body["_id"])
+    return body

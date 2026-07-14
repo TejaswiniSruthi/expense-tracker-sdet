@@ -3,3 +3,5 @@ requests
 pydantic
 jsonschema
 pymongo
+playwright
+pytest-playwright

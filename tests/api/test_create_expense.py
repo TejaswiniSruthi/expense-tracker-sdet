@@ -1,4 +1,5 @@
 import json
+import allure
 from pathlib import Path
 
 import pytest
@@ -8,7 +9,9 @@ DATA = json.loads(FIXTURES.read_text())
 
 pytestmark = pytest.mark.regression
 
-
+@allure.feature("Expenses API")
+@allure.story("Create expense - VALID")
+@allure.severity(allure.severity_level.CRITICAL)
 @pytest.mark.parametrize("case", DATA["valid"], ids=[c["case"] for c in DATA["valid"]])
 def test_create_expense_valid(api, base_url, case, cleanup_expenses):
     response = api.post(f"{base_url}/api/expenses", json=case["payload"])
@@ -22,6 +25,9 @@ def test_create_expense_valid(api, base_url, case, cleanup_expenses):
         assert body[field] == expected, f"{field} mismatch"
 
 
+@allure.feature("Expenses API")
+@allure.story("Create expense - INVALID")
+@allure.severity(allure.severity_level.CRITICAL)
 @pytest.mark.parametrize("case", DATA["invalid"], ids=[c["case"] for c in DATA["invalid"]])
 def test_create_expense_invalid_returns_400(api, base_url, case):
     response = api.post(f"{base_url}/api/expenses", json=case["payload"])

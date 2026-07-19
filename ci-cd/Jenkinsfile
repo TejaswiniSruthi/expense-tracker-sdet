@@ -7,12 +7,28 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Verify workspace') {
+
+        stage('Build and start CI stack') {
             steps {
-                sh 'ls -la'
-                sh 'git log --oneline -3'
-                sh 'docker --version'
+                sh 'docker compose -f ci-cd/docker-compose.ci.yml up -d --build'
             }
+        }
+
+        stage('Wait for app healthy') {
+            steps {
+                sh '''
+                    docker run --rm --network expense-ci_default \
+                      curlimages/curl -sf \
+                      --retry 15 --retry-delay 2 --retry-all-errors \
+                      http://app:3000/health
+                '''
+            }
+        }
+    }
+
+    post {
+        always {
+            sh 'docker compose -f ci-cd/docker-compose.ci.yml down -v || true'
         }
     }
 }

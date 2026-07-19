@@ -1,0 +1,18 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+        stage('Verify workspace') {
+            steps {
+                sh 'ls -la'
+                sh 'git log --oneline -3'
+                sh 'docker --version'
+            }
+        }
+    }
+}
